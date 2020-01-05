@@ -10,12 +10,12 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final int REQUEST_CODE_USERNAMEACTIVITY = 110;
     private TextView username;
     private TextView email;
     private TextView password;
     private Button next;
-    private int REQUEST_CODE=100;
-    private Intent intent1;
+    private Intent intentusername;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,13 +24,25 @@ public class MainActivity extends AppCompatActivity {
         username = findViewById(R.id.username);
         password = findViewById(R.id.password);
         email = findViewById(R.id.email);
+
         next = findViewById(R.id.next);
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               intent1 = new Intent(MainActivity.this, UsernameActivity.class);
-                startActivityForResult(intent1,REQUEST_CODE);
+                intentusername = new Intent(MainActivity.this, UsernameActivity.class);
+                startActivity(intentusername);
             }
         });
     }
-            }
+   @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        String name = intent.getStringExtra("user");
+        String passid = intent.getStringExtra("password");
+        String emailid = intent.getStringExtra("email");
+        username.setText(name);
+        password.setText(passid);
+        email.setText(emailid);
+    }
+
+}
